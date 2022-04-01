@@ -303,6 +303,17 @@ public class CtClassTest {
 
 		canBeBuilt("./target/issue1306", 8, true);
 	}
+	@Test
+	public void testSimpleNameOfAnonymousClass() {
+		final Launcher launcher = new Launcher();
+		launcher.addInputResource("./src/test/java/spoon/test/ctClass/testclasses/AnonymousClass.java");
+		launcher.getEnvironment().setAutoImports(false);
+		launcher.buildModel();
+
+		CtModel model = launcher.getModel();
+		CtNewClass newClassInvocation = launcher.getModel().getElements(new TypeFilter<>(CtNewClass.class)).get(0);
+		assertEquals("AnonymousClass$2", newClassInvocation.getAnonymousClass().getSimpleName());
+	}
 
 	@Test
 	public void testCloneAnonymousClassInvocation() {
